@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/threejs/r76/three.min.js"></script>
+    <title>aa</title>
+</head>
+
+<body>
+    <canvas id="myCanvas"></canvas>
+    <script>
+        var scene = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight,
+            0.1, 1000);
+
+        var renderer = new THREE.WebGLRenderer({
+            canvas: document.getElementById("myCanvas"),
+            antialias: false
+        });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setClearColor('white');
+
+        var geometry = new THREE.CircleGeometry(0.05, 8);
+        var material = new THREE.MeshBasicMaterial({
+            color: 'blue',
+            wireframe: false
+        });
+        var circle = new THREE.Mesh(geometry, material);
+        scene.add(circle);
+
+        camera.position.z = 3;
+
+        var i = 0.001;
+        var radius = 1;
+        var radius_frac = 0;
+        var render = function() {
+            requestAnimationFrame(render);
+            var theta = Math.PI / 180 * i;
+            // circle.position.x = Math.cos(theta) * Math.abs(radius - radius_frac);
+            // circle.position.y = Math.sin(theta) * Math.abs(radius - radius_frac);
+            circle.position.x = Math.cos(theta) * radius;
+            circle.position.y = Math.sin(theta) * radius;
+            i *= 1.1;
+            radius_frac += 0.001;
+            renderer.render(scene, camera);
+        }
+        render();
+    </script>
+</body>
+
+</html>
